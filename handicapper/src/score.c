@@ -4,7 +4,7 @@
 * File: score.c
 * Author: Ray Weaver
 * NetID: rayweaver
-* Date: October 21, 2014
+* Date: October 26, 2014
 *
 *
 */
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "bool.h"
 #include "score.h"
+
 
 double calculateHandicap(double scores[]) {
 	int i = 0;
@@ -56,6 +57,7 @@ void readRevisionScoresFile(char* fileName) {
 
 }
 
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 /*						doubly linked list functions											*/
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +68,7 @@ void readRevisionScoresFile(char* fileName) {
 This function initializes a list by setting the head and tail to null, and the size of the list to 0
 */
 
-void GolfRoundsInit(GolfRounds* list) {
+void DListInit(DList* list) {
 	if (list == NULL) {
 		return;
 	}
@@ -77,20 +79,14 @@ void GolfRoundsInit(GolfRounds* list) {
 	}
 } //end DListInit
 
-
-/*
-
-*/
-
-
-void GolfRoundsDestroy(GolfRounds* list) {
+void DListDestroy(DList* list) {
 
 } // end DListDestroy
 
 
-bool GolfRoundsInsertAfter(GolfRounds* list, Score* currNode, Score* newNode) {
+bool DListInsertAfter(DList* list, Score* currNode, Score* newNode) {
 	if (currNode == NULL) {
-		return GolfRoundsInsertBefore(list, list->head, newNode);
+		return DListInsertBefore(list, list->head, newNode);
 	}
 	else {
 		newNode->next = currNode->next;
@@ -99,13 +95,13 @@ bool GolfRoundsInsertAfter(GolfRounds* list, Score* currNode, Score* newNode) {
 			currNode->next->prev = newNode;
 		}
 		currNode->next = newNode;
-		GolfRoundsUpdateHeadTail(list, currNode, newNode);
+		DListUpdateHeadTail(list, currNode, newNode);
 		list->size++;
 	}
 } // end DListInsertAfter
 
 
-bool GolfRoundsInsertBefore(GolfRounds* list, Score* currNode, Score* newNode) {
+bool DListInsertBefore(DList* list, Score* currNode, Score* newNode) {
 	if (currNode == NULL) {
 		newNode->next = list->head;
 		newNode->prev = NULL;
@@ -119,27 +115,39 @@ bool GolfRoundsInsertBefore(GolfRounds* list, Score* currNode, Score* newNode) {
 				currNode->prev->next = newNode;
 			}
 			currNode->prev = newNode;
-			GolfRoundsUpdateHeadTail(list, currNode, newNode);
+			DListUpdateHeadTail(list, currNode, newNode);
 			list->size++;
 		}
 	}
 } // end DListInsertBefore
 
-Score* GolfRoundsSearch(GolfRounds* list, char* key) {
+Score* DListSearch(DList* list, char* key) {
+
+	
 
 } // end DListSearch
 
 
 
-bool GolfRoundsRemove(GolfRounds* list, Score* currNode) {
+bool DListRemove(DList* list, Score* currNode) {
 	if (currNode->prev == NULL) {
 		list->head = currNode->next;
 	}
+	else {
+		currNode->prev->next = currNode->next;
+	}
+	if (currNode->next == NULL) {
+		list->tail = currNode->prev;
+	}
+	else {
+		currNode->next->prev = currNode->prev;
+	}
+	free(currNode);
 } // end DListRemove
 
 
 
-void GolfRoundsUpdateHeadTail(GolfRounds* list, Score* currNode, Score* newNode) {
+void DListUpdateHeadTail(DList* list, Score* currNode, Score* newNode) {
 	if (currNode) {
 		if (currNode->next == NULL)
 		{
@@ -164,7 +172,7 @@ void GolfRoundsUpdateHeadTail(GolfRounds* list, Score* currNode, Score* newNode)
 Score* createGolfRoundData(Score* currRound) {
 	Score *result = NULL;
 
-	result = (Score *)malloc(sizeof(Score));
+	result = (Score *) malloc(sizeof(Score));
 
 	if (result != NULL) {
 		result->next = NULL;

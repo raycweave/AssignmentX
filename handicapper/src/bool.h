@@ -4,7 +4,7 @@
 * File: bool.h
 * Author: Ray Weaver
 * NetID: rayweaver
-* Date: October 9, 2014
+* Date: October 26, 2014
 *
 *
 */

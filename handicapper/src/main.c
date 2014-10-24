@@ -4,14 +4,14 @@
 * File: main.c
 * Author: Ray Weaver
 * NetID: rayweaver
-* Date: October 21, 2014
+* Date: October 26, 2014
 *
 *
 */
-//adding this hello here
+
 /**************************************************************************************************/
 
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WRAgNINGS
 #include <stdlib.h>
 #include <stdio.h>
 #include "bool.h"
@@ -37,14 +37,13 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	GolfRounds myScores;
-	GolfRoundsInit(&myScores);
+	DList myScores;
+	DListInit(&myScores);
 
-	Score *torreyPines = NULL;
-	Score *RanchoMurieta = NULL;
-	Score *head = NULL;
-
-	GolfRoundsInsertAfter(&myScores, 0, torreyPines);
+	Score ranchoMurieta;
+	Score torreyPines;
+	
+	DListInsertAfter(&myScores, &myScores, &torreyPines);
 
 	//createGolfRoundData(torreyPines);
 	//createGolfRoundData(RanchoMurieta);

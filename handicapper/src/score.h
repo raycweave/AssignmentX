@@ -4,7 +4,7 @@
 * File: score.h
 * Author: Ray Weaver
 * NetID: rayweaver
-* Date: October 21, 2014
+* Date: October 26, 2014
 *
 *
 */
@@ -14,6 +14,8 @@
 
 #ifndef SCORE_H
 #define SCORE_H
+
+
 
 typedef struct Score_struct {
 	bool counted;
@@ -28,32 +30,28 @@ typedef struct Score_struct {
 	struct Score_struct *prev;
 } Score;
 
-
-
-/* A list to store all the golf rounds*/
-typedef struct GolfRounds_struct {
+typedef struct DList_struct {
 	int size;
 	Score *head;
 	Score *tail;
-} GolfRounds;
-
+} DList;
 
 double calculateHandicap(double scores []);
 
-void GolfRoundsInit(GolfRounds* list);
-
-void GolfRoundsDestroy(GolfRounds* list);
-
-bool GolfRoundsInsertAfter(GolfRounds* list, Score* currNode, Score* newNode);
-
-bool GolfRoundsInsertBefore(GolfRounds* list, Score* currNode, Score* newNode);
-
-Score* GolfRoundsSearch(GolfRounds* list, char* key);
-
-bool GolfRoundsRemove(GolfRounds* list, Score* currNode);
-
-void GolfRoundsUpdateHeadTail(GolfRounds* list, Score* currNode, Score* newNode);
-
 Score* createGolfRoundData(Score* currRound);
+
+void DListInit(DList* list);
+
+void DListDestroy(DList* list);
+
+bool DListInsertAfter(DList* list, Score* currNode, Score* newNode);
+
+bool DListInsertBefore(DList* list, Score* currNode, Score* newNode);
+
+Score* DListSearch(DList* list, char* key);
+
+bool DListRemove(DList* list, Score* currNode);
+
+void DListUpdateHeadTail(DList* list, Score* currNode, Score* newNode);
 
 #endif
