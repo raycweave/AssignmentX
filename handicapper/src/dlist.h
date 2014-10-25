@@ -1,7 +1,7 @@
 /**************************************************************************************************/
 
 /*
-* File: score.h
+* File: dlist.h
 * Author: Ray Weaver
 * NetID: rayweaver
 * Date: October 26, 2014
@@ -12,34 +12,9 @@
 /**************************************************************************************************/
 
 
-#ifndef SCORE_H
-#define SCORE_H
+#ifndef DLIST_H
+#define DLIST_H
 
-
-
-typedef struct Score_struct {
-	/*bool counted;
-	char scoreType[3];
-	unsigned short month;
-	unsigned int year;
-	unsigned short adjGrossScore;
-	double courseRating;
-	unsigned short slopeRating;
-	double hcpDifferential;*/
-	int data;
-	struct Score_struct *next;
-	struct Score_struct *prev;
-} Score;
-
-typedef struct DList_struct {
-	int size;
-	Score *head;
-	Score *tail;
-} DList;
-
-double calculateHandicap(double scores []);
-
-Score* createGolfRoundData(Score* currRound);
 
 void DListInit(DList* list);
 
