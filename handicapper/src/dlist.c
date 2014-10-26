@@ -19,15 +19,13 @@
 
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 /*						doubly linked list functions											*/
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-/*
-This function initializes a list by setting the head and tail to null, and the size of the list to 0
-*/
+
 
 void DListInit(DList* list) {
 	if (list == NULL) {
@@ -40,64 +38,100 @@ void DListInit(DList* list) {
 	}
 } //end DListInit
 
-void DListDestroy(DList* list) {
+void DListDestroy(DList* list) { //FIXME
 
 } // end DListDestroy
 
 
-bool DListInsertAfter(DList* list, Score* currNode, Score* newNode) {
-	if (currNode == NULL) {
-		return DListInsertBefore(list, list->head, newNode);
-	}
-	else {
-		newNode->next = currNode->next;
-		newNode->prev = currNode;
-		if (currNode->next) {
-			currNode->next->prev = newNode;
-		}
-		currNode->next = newNode;
-		DListUpdateHeadTail(list, currNode, newNode);
-		list->size++;
-	}
-} // end DListInsertAfter
+bool DListInsertAfter(DList* list, DListNode* currNode, DListNode* newNode){
 
-
-bool DListInsertBefore(DList* list, Score* currNode, Score* newNode) {
-	if (currNode == NULL) {
-		newNode->next = list->head;
-		newNode->prev = NULL;
-		if (list->head != NULL) {
-			list->head->prev = newNode;
+	if (list != NULL){
+		if (currNode == NULL){
+			return DListInsertBefore(list, list->head, newNode); //equivilant to calling insert before with the head of the list. 
+			//next function will figure out if list->head happends to be NULL as well
 		}
-		else {
-			newNode->prev = currNode->prev;
-			newNode->next = currNode;
-			if (currNode->prev != NULL) {
-				currNode->prev->next = newNode;
+		else //if currNode is not equal to NULL. so CurrNode has valid prev and next pointers
+		{
+			newNode->next = currNode->next;
+			newNode->prev = currNode;
+			if (currNode->next != NULL){ //if currNode is pointing to something, tell that list element to point to newNode now
+				currNode->next->prev = newNode;
 			}
-			currNode->prev = newNode;
-			DListUpdateHeadTail(list, currNode, newNode);
-			list->size++;
+			currNode->next = newNode;
+			//    DListUpdateHeadTail(list, currNode, newNode);
 		}
-	}
-} // end DListInsertBefore
+		DListUpdateHeadTail(list, currNode, newNode);
+		//list->size++;
 
-Score* DListSearch(DList* list, char* key) {
+		return true;
+	}
+	return false;
+}
+
+
+bool DListInsertBefore(DList* list, DListNode* currNode, DListNode* newNode){
+
+	if (list != NULL){
+		if (currNode == NULL){ //list->head was passed in from insertafter as currNode, so if this executes list is empty
+			newNode->next = list->head; //if list is empty then next will just point to null because list->head = null
+			newNode->prev = NULL; //if head then prev is ALWAYS null
+			//DListUpdateHeadTail(list, currNode, newNode);
+			if (list->head != NULL){ //if head was actually already point to an element..
+				list->head->prev = newNode; //first elements prev is not pointing to newnode
+			}
+			DListUpdateHeadTail(list, currNode, newNode);
+			//list->size++;
+		}
+		else{ //insert before in the middle of list
+			//    newNode->prev = currNode->prev zx
+			//    newNode->next = currNode;
+			if (newNode) {
+				newNode->prev = currNode->prev;
+				newNode->next = currNode;
+				if (currNode->prev != NULL){
+					currNode->prev->next = newNode;
+				}
+				currNode->prev = newNode;
+			}
+
+			DListUpdateHeadTail(list, currNode, newNode);
+			//list->size++; //update above as well
+		}
+
+		return true;
+	}
+	return false;
+
+}
+
+DList* DListSearch(DList* list, char* key) { // FIXME
+
+
 
 } // end DListSearch
 
 
 
-bool DListRemove(DList* list, Score* currNode) {
+bool DListRemove(DList* list, DListNode* currNode) { //FIXME
 	if (currNode->prev == NULL) {
 		list->head = currNode->next;
 	}
+	else {
+		currNode->prev->next = currNode->next;
+	}
+	if (currNode->next == NULL) {
+		list->tail = currNode->prev;
+	}
+	else {
+		currNode->next->prev = currNode->prev;
+	}
+	free(currNode);
 } // end DListRemove
 
 
 
-void DListUpdateHeadTail(DList* list, Score* currNode, Score* newNode) {
-	if (currNode) {
+void DListUpdateHeadTail(DList* list, DListNode* currNode, DListNode* newNode) {
+	if (currNode != NULL) {
 		if (currNode->next == NULL)
 		{
 			list->tail = currNode;
@@ -107,26 +141,14 @@ void DListUpdateHeadTail(DList* list, Score* currNode, Score* newNode) {
 		}
 	}
 
-	if (newNode) {
-		if (currNode->next == NULL)
+	if (newNode != NULL) {
+		if (newNode->next == NULL)
 		{
 			list->tail = newNode;
 		}
-		if (currNode->prev == NULL) {
+		if (newNode->prev == NULL) {
 			list->head = newNode;
 		}
 	}
-} // end GolfRoundsUpdateHeadTail
+} 
 
-Score* createGolfRoundData(Score* currRound) {
-	Score *result = NULL;
-
-	result = (Score *) malloc(sizeof(Score));
-
-	if (result != NULL) {
-		result->next = NULL;
-		result->prev = NULL;
-	}
-
-	return result;
-}

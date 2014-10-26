@@ -12,22 +12,42 @@
 /**************************************************************************************************/
 
 
+
 #ifndef DLIST_H
 #define DLIST_H
+
+#include "score.h"
+#include "bool.h"
+
+typedef struct DListNode_struct {
+
+	Score GolfScore;
+	struct DListNode_struct *next;
+	struct DListNode_struct *prev;
+
+} DListNode;
+
+typedef struct DList_struct {
+
+	int size;
+	DListNode *head;
+	DListNode *tail;
+
+} DList;
 
 
 void DListInit(DList* list);
 
 void DListDestroy(DList* list);
 
-bool DListInsertAfter(DList* list, Score* currNode, Score* newNode);
+bool DListInsertAfter(DList* list, DListNode* currNode, DListNode* newNode);
 
-bool DListInsertBefore(DList* list, Score* currNode, Score* newNode);
+bool DListInsertBefore(DList* list, DListNode* currNode, DListNode* newNode);
 
-Score* DListSearch(DList* list, char* key);
+DList* DListSearch(DList* list, char* key);
 
-bool DListRemove(DList* list, Score* currNode);
+bool DListRemove(DList* list, DListNode* currNode);
 
-void DListUpdateHeadTail(DList* list, Score* currNode, Score* newNode);
+void DListUpdateHeadTail(DList* list, DListNode* currNode, DListNode* newNode);
 
 #endif
