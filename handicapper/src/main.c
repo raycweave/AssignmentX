@@ -5,13 +5,10 @@
 * Author: Ray Weaver
 * NetID: rayweaver
 * Date: October 26, 2014
-*
-*
 */
 
 /**************************************************************************************************/
 
-//use selection sort for sorting things
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
@@ -20,17 +17,13 @@
 #include "score.h"
 #include "dlist.h"
 #include "reader.h"
-
+#include "printing.h"
 
 /**************************************************************************************************/
 
 int main(int argc, char *argv [])
 {
-	//golfRounds 
-	//double scores[10] = { 6.2, 8.3, 9.7, 10.1, 3.8, 7.6, 3.4, 1.2, 0.7, 12.2 };
-
-	//ACTempData acTemps[MinPerDay];
-
+	
 	/*
 	* check for the correct number of commandline arguments.  If incorrect
 	* provide a simple usage message to the assist the user
@@ -38,15 +31,14 @@ int main(int argc, char *argv [])
 
 	if (argc != 4) {
 		printf("\nUsage: %s revisionScoresFileIn recentScoresFileIn hcpCardFileOut \n\n", argv[0]);
-		return -1;
+		return false;
 	}
-
-	int insert;
 
 	DList *myScores;
 	myScores = (DList*) malloc(sizeof(DList));
 	DListInit(myScores);
 
+	/*
 	DListNode* RanchoMurieta;
 	RanchoMurieta = (DListNode*) malloc(sizeof(DListNode));
 	DListNode* TorreyPines;
@@ -55,11 +47,13 @@ int main(int argc, char *argv [])
 	WildHawk = (DListNode*) malloc(sizeof(DListNode));
 	DListNode* RMS;
 	RMS = (DListNode*) malloc(sizeof(DListNode));
+	
 
 	DListInsertAfter(myScores, NULL, RanchoMurieta);
 	DListInsertAfter(myScores, NULL, TorreyPines);
 	DListInsertAfter(myScores, NULL, WildHawk);
 	DListInsertBefore(myScores, RanchoMurieta, RMS);
+	*/
 
 
 	if (!ReadInFile(myScores, argv[1])) {
@@ -67,13 +61,22 @@ int main(int argc, char *argv [])
 		return -1;
 	}
 
+	if (!ReadInFile(myScores, argv[2])) {
+		printf("Could not read from input file %s\n", argv[1]);
+		return -1;
+	}
+
+	SelectionSort(myScores);
+
+	//SelectionSort()
+
 	//	fscanf("%d", &insert);
 
 
 	//calculateHandicap(scores);
 
 
-
+	printHandicapCard(myScores);
 
 	// function calls
 	/*

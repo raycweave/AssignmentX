@@ -50,4 +50,8 @@ bool DListRemove(DList* list, DListNode* currNode);
 
 void DListUpdateHeadTail(DList* list, DListNode* currNode, DListNode* newNode);
 
+DListNode CreateNewNode(DList* list, char scoreType [], unsigned short month, unsigned int year, unsigned short adjGrossScore, double courseRating, unsigned short slopeRating, double hcpDifferential);
+
+void SelectionSort(DList *list);
+
 #endif

@@ -22,11 +22,11 @@ bool ReadInFile(DList *list, char *fileName) {
 	char string[100];
 
 	bool counted;
-	char star[1] = "";
+	char star[2] = "";
 	char scoreType[3] = "";
 	unsigned short month = 0; //hu
 	unsigned int year = 0; // u
-	unsigned short adjGrossScore = 0;
+	unsigned short adjGrossScore = 0; // hu
 	double courseRating = 0; //lf
 	unsigned short slopeRating = 0;
 	double hcpDifferential = 0;
@@ -34,18 +34,21 @@ bool ReadInFile(DList *list, char *fileName) {
 	inputFile = fopen(fileName, "r");
 
 	if (inputFile == NULL) {
-		printf("The file does not exist!");
+		printf("The file %s does not exist!\n", fileName);
+		return false;
 	}
 
 	else {
-		while (inputFile != EOF) {
+		while (!feof(inputFile)) {
 			fgets(string, 100, inputFile);
 			if (string[0] == '*') {
-				sscanf(string, "%c %s %d/%d %d %lf/%d %f", star, scoreType, &month, &year, &adjGrossScore, &courseRating, &slopeRating, &hcpDifferential);
+				sscanf(string, "%c %s %hu/%u %hu %lf/%hu %lf", star, scoreType, &month, &year, &adjGrossScore, &courseRating, &slopeRating, &hcpDifferential);
+				CreateNewNode(list, scoreType, month, year, adjGrossScore, courseRating, slopeRating, hcpDifferential);
 			}
 			
 			else {
-				sscanf(string, "%s %d/%d %d %lf/%d %f", scoreType, &month, &year, &adjGrossScore, &courseRating, &slopeRating, &hcpDifferential);
+				sscanf(string, "%s %hu/%u %hu %lf/%hu %lf", scoreType, &month, &year, &adjGrossScore, &courseRating, &slopeRating, &hcpDifferential);
+				CreateNewNode(list, scoreType, month, year, adjGrossScore, courseRating, slopeRating, hcpDifferential);
 			}
 		}
 	}

@@ -19,8 +19,9 @@
 
 
 double calculateHandicap(double scores[]) {
+
 	int i = 0;
-	double total = 0.0;
+	float total = 0.0;
 
 	for (i = 0; i < 10; ++i) {
 		total = total + scores[i];
@@ -38,21 +39,6 @@ double calculateHandicap(double scores[]) {
 
 	if (total >= 36.4) {
 		total = 36.4;
-	}
-
-}
-
-void readRevisionScoresFile(char* fileName) {
-
-	FILE* revisionScoresFileIn;
-	revisionScoresFileIn = fopen(fileName, "r");
-
-	if (revisionScoresFileIn == NULL) {
-		printf("The file does not exist!\n");
-	}
-
-	else {
-		while (fscanf(revisionScoresFileIn, "%s\t%d/%d %d\t%lf/%d\t%lf"));
 	}
 
 }
