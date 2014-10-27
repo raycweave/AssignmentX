@@ -38,19 +38,16 @@ bool DListInsertAfter(DList* list, DListNode* currNode, DListNode* newNode){
 
 	if (list != NULL){
 		if (currNode == NULL) {
-			return DListInsertBefore(list, list->head, newNode);							//equivilant to calling insert before with the head of the list. 
-																							//next function will figure out if list->head happends to be NULL as well
+			return DListInsertBefore(list, list->head, newNode);							 
 		}
 
-		else																				//if currNode is not equal to NULL. so CurrNode has valid prev and next pointers
+		else																				
 		{
 			newNode->next = currNode->next;
 			newNode->prev = currNode;
-
-			if (currNode->next != NULL) {													//if currNode is pointing to something, tell that list element to point to newNode now
+			if (currNode->next != NULL) {													
 				currNode->next->prev = newNode;
 			}
-
 			currNode->next = newNode;
 		}
 		DListUpdateHeadTail(list, currNode, newNode);
@@ -156,7 +153,7 @@ DListNode CreateNewNode(DList* list, char scoreType [], unsigned short month, un
 	newNode->GolfScore.slopeRating = slopeRating;
 	newNode->GolfScore.hcpDifferential = hcpDifferential;
 
-	DListInsertAfter(list, NULL, newNode);
+	DListInsertAfter(list, list->tail, newNode);
 
 	return *newNode;
 
@@ -166,23 +163,24 @@ void SelectionSort(DList *list) {
 
 	DListNode *i = NULL;
 	DListNode *j = NULL;
-	DListNode *indexSmallest = NULL;
+	DListNode *indexSmallest = NULL;																//need to find where to dereference and swap
 	DListNode *temp = NULL;
 
-	for (i = list->head; (i != NULL); i = i->next) { 
+	for (i = list->head; (i != NULL); i = i->next) {
 		// Find index of largest remaining element
 		indexSmallest = i;
-		for (j = i->next; (j != NULL); j = j->next) 
+		for (j = i->next; (j != NULL); j = j->next)
 		{
-			if (j->GolfScore.month < indexSmallest->GolfScore.month)
+			if (j->GolfScore.hcpDifferential < indexSmallest->GolfScore.hcpDifferential)
 			{
-				indexSmallest = j;
+				*indexSmallest = *j;
 			}
 		}
-		temp = i;
-		i = indexSmallest;
-		indexSmallest = temp;
+		*temp = *i;
+		*i = *indexSmallest;
+		*indexSmallest = *temp;
 	}
-	list->head = i;
+
 }
 
+	

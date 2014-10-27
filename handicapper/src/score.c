@@ -16,30 +16,31 @@
 #include <stdio.h>
 #include "bool.h"
 #include "score.h"
+#include "dlist.h"
 
 
-double calculateHandicap(double scores[]) {
+float calculateHandicap(DList *list) {
 
-	int i = 0;
+	DListNode *i = NULL;
 	float total = 0.0;
+	float avgDifferential = 0.0;
+	int roundedAvg;
 
-	for (i = 0; i < 10; ++i) {
-		total = total + scores[i];
+	for (i = list->head; (i != NULL); i = i->next) {
+		total = i->GolfScore.hcpDifferential + total;
 	}
 
-	//printf("%.1lf\n", total); // prints the calculated sum
-	total = (total / 10);
-	printf("%.2lf\n", total); // prints the calculated average
-	//total = (total * 0.96); // calculates the average * 0.96
+	avgDifferential = total / 10;
 
-	// FIXME//
-	//NEED TO TRUNCATE VALUE AND CHANGE VARIABLE NAME
+	avgDifferential = avgDifferential * 0.96;
 
-	printf("%lf\n", total);
+	roundedAvg = (int) avgDifferential;
 
-	if (total >= 36.4) {
-		total = 36.4;
+	if (roundedAvg >= 36.4) {
+		roundedAvg = 36.4;
 	}
+
+	return roundedAvg;
 
 }
 

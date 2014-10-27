@@ -56,15 +56,17 @@ int main(int argc, char *argv [])
 	*/
 
 
+	if (!ReadInFile(myScores, argv[2])) {
+		printf("Could not read from input file %s\n", argv[2]);
+		return -1;
+	}
+
 	if (!ReadInFile(myScores, argv[1])) {
 		printf("Could not read from input file %s\n", argv[1]);
 		return -1;
 	}
 
-	if (!ReadInFile(myScores, argv[2])) {
-		printf("Could not read from input file %s\n", argv[1]);
-		return -1;
-	}
+	calculateHandicap(myScores);
 
 	SelectionSort(myScores);
 
